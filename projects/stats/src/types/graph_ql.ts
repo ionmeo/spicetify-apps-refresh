@@ -211,3 +211,37 @@ export interface Duration {
 export interface TrackPlayability {
 	playable: boolean;
 }
+
+export interface GraphQLTopArtist {
+	data: {
+		profile: { name: string };
+		uri: string;
+		visuals: {
+			avatarImage: {
+				sources: { height: number; url: string; width: number }[];
+			};
+		};
+	};
+}
+
+export interface GraphQLTopTrack {
+	data: {
+		albumOfTrack: {
+			coverArt: {
+				sources: { height: number; url: string; width: number }[];
+			};
+			name: string;
+			uri: string;
+		};
+		artists: {
+			items: {
+				profile: { name: string };
+				uri: string;
+			}[];
+		};
+		contentRating: { label: string };
+		duration: { totalMilliseconds: number };
+		name: string;
+		uri: string;
+	};
+}

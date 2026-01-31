@@ -10,7 +10,8 @@ import RefreshButton from "../components/buttons/refresh_button";
 import SettingsButton from "@shared/components/settings_button";
 import { DropdownOptions } from "./top_artists";
 import type { SpotifyRange } from "../types/spotify";
-import { convertTrack, minifyTrack } from "../utils/converter";
+import { getTopTracksGraphQL } from "../api/platform";
+import { convertTrack, minifyTrack, minifyTopTrackGraphQL } from "../utils/converter";
 import { useQuery } from "@shared/types/react_query";
 import useStatus from "@shared/status/useStatus";
 import { cacher, invalidator } from "../extensions/cache";
@@ -23,8 +24,13 @@ export const getTopTracks = async (timeRange: SpotifyRange, config: Config) => {
 		const response = await lastFM.getTopTracks(key, user, timeRange);
 		return Promise.all(response.map(convertTrack));
 	}
-	const response = await spotify.getTopTracks(timeRange);
-	return response.map(minifyTrack);
+	try {
+		const response = await spotify.getTopTracks(timeRange);
+		return response.map(minifyTrack);
+	} catch {
+		const response = await getTopTracksGraphQL(timeRange);
+		return response.map(minifyTopTrackGraphQL);
+	}
 };
 
 const TracksPage = ({ configWrapper }: { configWrapper: ConfigWrapper }) => {

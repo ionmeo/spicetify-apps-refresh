@@ -2,6 +2,7 @@ import { searchForAlbum, searchForArtist, searchForTrack } from "../api/spotify"
 import { cacher, set } from "../extensions/cache";
 import type * as LastFM from "../types/lastfm";
 import type * as Spotify from "../types/spotify";
+import type { GraphQLTopArtist, GraphQLTopTrack } from "../types/graph_ql";
 import type {
 	LastFMMinifiedAlbum,
 	LastFMMinifiedArtist,
@@ -47,6 +48,41 @@ export const minifyTrack = (track: Spotify.Track): SpotifyMinifiedTrack => ({
 	},
 	type: "spotify",
 });
+
+export const minifyTopArtistGraphQL = (item: GraphQLTopArtist): SpotifyMinifiedArtist => {
+	const { uri, profile, visuals } = item.data;
+	return {
+		id: uri.split(":")[2],
+		name: profile.name,
+		image: visuals?.avatarImage?.sources?.[0]?.url,
+		uri,
+		genres: [],
+		type: "spotify",
+	};
+};
+
+export const minifyTopTrackGraphQL = (item: GraphQLTopTrack): SpotifyMinifiedTrack => {
+	const { uri, name, duration, contentRating, albumOfTrack, artists } = item.data;
+	return {
+		id: uri.split(":")[2],
+		uri,
+		name,
+		duration_ms: duration.totalMilliseconds,
+		popularity: 0,
+		explicit: contentRating?.label !== "NONE",
+		image: albumOfTrack?.coverArt?.sources?.at(-1)?.url,
+		artists: artists.items.map((artist) => ({
+			name: artist.profile.name,
+			uri: artist.uri,
+		})),
+		album: {
+			name: albumOfTrack?.name || "",
+			uri: albumOfTrack?.uri || "",
+			release_date: "",
+		},
+		type: "spotify",
+	};
+};
 
 export const convertArtist = async (artist: LastFM.Artist) => {
 	const spotifyArtist = await cacher(async () => {

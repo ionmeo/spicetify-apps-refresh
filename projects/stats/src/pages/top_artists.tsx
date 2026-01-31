@@ -8,7 +8,8 @@ import RefreshButton from "../components/buttons/refresh_button";
 import * as lastFM from "../api/lastfm";
 import * as spotify from "../api/spotify";
 import { SpotifyRange } from "../types/spotify";
-import { convertArtist, minifyArtist } from "../utils/converter";
+import { getTopArtistsGraphQL } from "../api/platform";
+import { convertArtist, minifyArtist, minifyTopArtistGraphQL } from "../utils/converter";
 import useStatus from "@shared/status/useStatus";
 import { useQuery } from "@shared/types/react_query";
 import { cacher, invalidator } from "../extensions/cache";
@@ -20,8 +21,13 @@ export const getTopArtists = async (timeRange: SpotifyRange, config: Config) => 
 		const response = await lastFM.getTopArtists(key, user, timeRange);
 		return Promise.all(response.map(convertArtist));
 	}
-	const response = await spotify.getTopArtists(timeRange);
-	return response.map(minifyArtist);
+	try {
+		const response = await spotify.getTopArtists(timeRange);
+		return response.map(minifyArtist);
+	} catch {
+		const response = await getTopArtistsGraphQL(timeRange);
+		return response.map(minifyTopArtistGraphQL);
+	}
 };
 
 export const DropdownOptions = ({ config: { "use-lastfm": useLastFM } }: ConfigWrapper) =>
