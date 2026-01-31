@@ -1,0 +1,11 @@
+{
+    "name": "spicetify-apps",
+    "private": true,
+    "version": "1.0.0",
+    "author": "harbassan",
+    "license": "MIT",
+    "workspaces": [
+        "stats",
+        "library"
+    ]
+}

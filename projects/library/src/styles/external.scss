@@ -1,0 +1,160 @@
+body.hide-library-button {
+    // hide sidebar heading element
+    &:not(.show-ylx-filters) .main-yourLibraryX-filterArea:not(:has(> .main-yourLibraryX-libraryFilter)),
+    .main-yourLibraryX-header:not(:has(> .main-yourLibraryX-headerContent > .main-yourLibraryX-collapseButton > button:nth-child(2))),
+    // hide back button and default collapse button
+    .main-yourLibraryX-collapseButton > button:first-child,
+    .main-yourLibraryX-headerContent > button {
+        display: none;
+    }
+
+    // adjust sidebar padding
+    .main-yourLibraryX-library {
+        padding-top: 8px;
+    }
+    .main-yourLibraryX-header {
+        margin-top: -8px;
+    }
+
+    .main-yourLibraryX-libraryFilter {
+        --encore-spacing-base: 8px;
+
+        // hide sort-by text
+        span[role="presentation"] button span:first-child,
+        span[role="presentation"] button span:first-child {
+            display: none;
+        }
+
+        // push sort button to the right within its flex parent
+        span[role="presentation"] {
+            margin-left: auto;
+        }
+    }
+}
+
+
+// hide weird button effect
+.toggle-filters-button > button:after,
+.collapse-button > button:after,
+.expand-button > button:after {
+    display: none;
+}
+
+
+// expand button positioning
+.expand-button {
+    display: flex;
+    align-items:center;
+    z-index: 1;
+    margin-left: 5px;
+}
+.expand-button > button {
+    visibility: hidden;
+    margin: 0 5px;
+}
+li.main-yourLibraryX-navItem[data-id='/library'] {
+    display: flex;
+}
+li.main-yourLibraryX-navItem[data-id='/library'] > a {
+    flex-grow: 1;
+}
+.main-yourLibraryX-libraryFilter {
+    // ylx button styling
+    .toggle-filters-button > button,
+    .collapse-button > button,
+    .main-yourLibraryX-librarySortWrapper > button,
+    span[role="presentation"] span[role="presentation"] > button {
+        padding: 0;
+    }
+    .toggle-filters-button,
+    .collapse-button,
+    .main-yourLibraryX-librarySortWrapper,
+    span[role="presentation"] span[role="presentation"] {
+        display: flex;
+        flex-basis:32px;
+        justify-content: center;
+        min-width: 24px;
+        flex-shrink: 10;
+    }
+    .main-yourLibraryX-librarySortWrapper > button > span:nth-child(2),
+    span[role="presentation"] span[role="presentation"] > button > span:nth-child(2) {
+        margin: 0;
+    }
+}
+
+
+// remove resize bar hover effect
+.LayoutResizer__resize-bar {
+    opacity: 0 !important;
+}
+
+
+.Root__nav-bar {
+    // fix search bar expansion
+    .x-filterBox-expandedOrHasFilter .x-filterBox-filterInput {
+        width: 100%;
+    }
+    .x-filterBox-expandedOrHasFilter {
+        flex-grow: 1;
+        margin-right: 5px;
+    }
+
+    // expand button visibility
+    &:has(> .LayoutResizer__resize-bar:hover) .expand-button > button,
+    .expand-button:hover > button {
+        visibility: visible;
+        height: 32px;
+        background-color: black;
+    }
+}
+
+.text-input-form {
+    // copied directly from spotify
+    .Button-small-buttonPrimary {
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+        font-size: 0.875rem;
+        font-weight: 700;
+        font-family: var(--font-family,CircularSp,CircularSp-Arab,CircularSp-Hebr,CircularSp-Cyrl,CircularSp-Grek,CircularSp-Deva,var(--fallback-fonts,sans-serif));
+        background-color: transparent;
+        border: 0px;
+        border-radius: 9999px;
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        text-transform: none;
+        touch-action: manipulation;
+        transition-duration: 33ms;
+        transition-property: background-color, border-color, color, box-shadow, filter, transform;
+        user-select: none;
+        vertical-align: middle;
+        transform: translate3d(0px, 0px, 0px);
+        padding: 0px;
+        min-inline-size: 0px;
+    }
+    .ButtonInner-small {
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+        position: relative;
+        background-color: var(--background-base,#1ed760);
+        color: var(--text-base,#000000);
+        display: flex;
+        border-radius: 9999px;
+        font-size: inherit;
+        min-block-size: var(--encore-control-size-smaller,32px);
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        justify-content: center;
+        padding-block-start: var(--encore-spacing-tighter-4,4px);
+        padding-block-end: var(--encore-spacing-tighter-4,4px);
+        padding-inline-start: var(--encore-spacing-base,16px);
+        padding-inline-end: var(--encore-spacing-base,16px);
+    }
+    .Button-small-buttonPrimary:hover .ButtonInner-sc-14ud5tc-0, .Button-small-buttonPrimary:hover .ButtonFocus-sc-2hq6ey-0 {
+        transform: scale(1.04);
+    }
+}
+
